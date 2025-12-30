@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year ❤️</title>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        color: white;
+        font-family: 'Segoe UI', cursive;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .screen {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        max-width: 700px;
+        white-space: pre-wrap;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 12px 28px;
+        font-size: 1rem;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+        background: white;
+        color: black;
+        transition: transform 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    canvas {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<!-- Screen 1 -->
+<div class="screen" id="screen1">
+    <h1>🎆 Are you ready my shajjj 🎆</h1>
+    <button onclick="goTo2()">OK</button>
+</div>
+
+<!-- Screen 2 -->
+<div class="screen hidden" id="screen2">
+    <h1>💖 Happy New Year my love 💖</h1>
+    <button onclick="goTo3()">➡️</button>
+</div>
+
+<!-- Screen 3 -->
+<div class="screen hidden" id="screen3">
+    <p>
+Happy New Year Jastaj 💞  
+my baby, my shona, my duffe, my idiot,  
+my home, my safe place, my everything.
+Words can’t describe how thankful I am for you.  
+Thank you for making my year so special,  
+because I was literally in love with you since January aahahhaha.
+I’m so in love with you yrrrrrrrrrr 🥹  
+Happy New Year.
+May you get more Hot Wheels hehe 🚗  
+May every wish of yours come true.  
+May only good and beautiful things happen to you.  
+And plssss may you get to make some time for me 👉🏻👈🏻🥹  
+I’m just your bachha, I need you 🥹
+Okay not writing itna, bhejungi para 🥰  
+Happy New Year future husband 💍  
+I love youuuuuu.  
+And may you get annoyed by me for all the next years ahead of us 😌  
+I love youuuuuuuu  
+Yours, Leen ❤️‍🩹  
+And may your family (I mean *mine* also 👉🏻👈🏻)  
+stay healthy, happy 🧿♾️
+    </p>
+    <button onclick="celebrate()">Click Me 💥</button>
+</div>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function createFirework(x, y, heart=false) {
+    for (let i = 0; i < 80; i++) {
+        particles.push({
+            x, y,
+            vx: random(-3, 3),
+            vy: random(-3, 3),
+            life: 100,
+            heart
+        });
+    }
+}
+
+function draw() {
+    ctx.fillStyle = "rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach((p, i) => {
+        ctx.fillStyle = p.heart ? "pink" : "white";
+        if (p.heart) {
+            ctx.font = "16px serif";
+            ctx.fillText("❤️", p.x, p.y);
+        } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
+            ctx.fill();
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+
+        if (p.life <= 0) particles.splice(i,1);
+    });
+
+    requestAnimationFrame(draw);
+}
+draw();
+
+function goTo2() {
+    document.getElementById("screen1").classList.add("hidden");
+    document.getElementById("screen2").classList.remove("hidden");
+    createFirework(innerWidth/2, innerHeight/2);
+}
+
+function goTo3() {
+    document.getElementById("screen2").classList.add("hidden");
+    document.getElementById("screen3").classList.remove("hidden");
+    createFirework(innerWidth/2, innerHeight/2);
+}
+
+function celebrate() {
+    for (let i = 0; i < 5; i++) {
+        createFirework(random(100, innerWidth-100), random(100, innerHeight-100), true);
+    }
+}
+</script>
+
+</body>
+</html>
